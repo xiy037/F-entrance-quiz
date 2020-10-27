@@ -5,8 +5,10 @@ import './index.scss';
 import '../../style/students.scss';
 
 const HomePage = () => {
-  const [allStudents] = useState(mockAllStudents);
+  const [allStudents, setAllStudents] = useState(mockAllStudents);
   const [studentsGroups, setStudentsGroups] = useState(mockStudentsGroups);
+  const [showInput, setShowInput] = useState(false);
+  const [inputName, setInputName] = useState('');
 
   // TODO: refactor shuffleStudents method, add test if time left
   const shuffleStudents = () => {
@@ -26,6 +28,27 @@ const HomePage = () => {
     setStudentsGroups(groupedStudents);
   };
 
+  const showAddStudentInput = () => {
+    setShowInput(true);
+  };
+
+  const handleChange = (e) => {
+    setInputName(e.target.value);
+  };
+
+  const addNewStudent = () => {
+    setAllStudents((prevState) => {
+      return [
+        ...prevState,
+        {
+          id: prevState.length + 1,
+          name: inputName,
+        },
+      ];
+    });
+    setShowInput(false);
+  };
+
   return (
     <div className="page-container">
       <h2 className="section-title">分组列表</h2>
@@ -42,8 +65,23 @@ const HomePage = () => {
         {allStudents.map(({ id, name }) => (
           <div key={id} className="student">{`${id}. ${name}`}</div>
         ))}
-        <div className="student add-student">+ 添加学员</div>
+        <button type="button" className="student add-student" onClick={showAddStudentInput}>
+          + 添加学员
+        </button>
       </div>
+      {showInput && (
+        <div>
+          <input
+            type="text"
+            placeholder="add new student"
+            onChange={handleChange}
+            value={inputName}
+          />
+          <button type="button" onClick={addNewStudent}>
+            ADD
+          </button>
+        </div>
+      )}
     </div>
   );
 };
