@@ -1,20 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import { mockAllStudents, mockStudentsGroups } from '../constants';
 import StudentsGroup from '../components/studentsGroup';
-import { getAllStudents, getGroupedStudents } from '../service';
+import {
+  getAllStudents,
+  getGroupedStudents,
+  sendGroupedStudents,
+  sendNewStudent,
+} from '../service';
 import './index.scss';
 import '../../style/students.scss';
 
 const HomePage = () => {
-  const [allStudents, setAllStudents] = useState(mockAllStudents);
-  const [studentsGroups, setStudentsGroups] = useState(mockStudentsGroups);
+  const [allStudents, setAllStudents] = useState([]);
+  const [studentsGroups, setStudentsGroups] = useState([]);
   const [showInput, setShowInput] = useState(false);
   const [inputName, setInputName] = useState('');
-  const [newStudent, setNewStudent] = useState('');
 
   useEffect(() => {
-    getAllStudents().then((data) => console.log('ALL', data));
-    getGroupedStudents().then((data) => console.log('GROUP', data));
+    getAllStudents()
+      .then((res) => setAllStudents(res.data))
+      .catch((e) => {
+        console.log('GET ALL ERROR', e);
+        setAllStudents(mockAllStudents);
+      });
+    getGroupedStudents()
+      .then((res) => {
+        console.log(res.data[0]);
+        setStudentsGroups(res.data);
+      })
+      .catch((e) => {
+        console.log('GET GROUPED STUDENTS', e);
+        setStudentsGroups(mockStudentsGroups);
+      });
+    return () => sendGroupedStudents(studentsGroups);
   }, []);
 
   // TODO: refactor shuffleStudents method, add test if time left
@@ -43,14 +61,14 @@ const HomePage = () => {
     setInputName(e.target.value);
   };
 
-  const addNewStudent = () => {
-    setNewStudent(inputName);
-    setAllStudents((prevState) => {
+  const addNewStudent = async () => {
+    sendNewStudent(inputName);
+    await setAllStudents((prevState) => {
       return [
         ...prevState,
         {
           id: prevState.length + 1,
-          name: newStudent,
+          name: inputName,
         },
       ];
     });
