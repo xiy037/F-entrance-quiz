@@ -1,0 +1,15 @@
+@import '../../style/variables';
+
+.student-group-container {
+  margin-bottom: 20px;
+  text-align: center;
+  border: 1px solid $gray;
+
+  .student-group-title {
+    margin: 0;
+    padding: 10px;
+    font-size: 20px;
+    background-color: $gray;
+    color: white;
+  }
+}
