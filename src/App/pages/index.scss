@@ -1,6 +1,7 @@
 @import '../../style/variables';
 
 .page-container {
+  position: relative;
   width: 1120px;
   padding: 20px;
   margin: auto;
@@ -8,6 +9,18 @@
 
   .section-title {
     font-size: $section-title-font-size;
+  }
+
+  .group-students {
+    position: absolute;
+    right: 20px;
+    top: 40px;
+    width: 100px;
+    padding: 10px;
+    text-align: center;
+    background-color: $primary-color;
+    color: white;
+    border: none;
   }
 
   .add-student {
