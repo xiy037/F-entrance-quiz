@@ -27,4 +27,12 @@ export const mockAllStudents = [
     id: 7,
     name: '成吉思汗4',
   },
+  {
+    id: 8,
+    name: 'aaa',
+  },
+  {
+    id: 9,
+    name: 'bbb',
+  },
 ];
