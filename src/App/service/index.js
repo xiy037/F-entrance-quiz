@@ -9,7 +9,7 @@ export const getGroupedStudents = () => {
 };
 
 export const sendNewStudent = (student) => {
-  return axios.post('http://localhost:8080/newStudent', student);
+  return axios.post(`http://localhost:8080/newStudent/${student}`);
 };
 
 export const sendGroupedStudents = (studentsArray) => {

@@ -18,7 +18,10 @@ const HomePage = () => {
 
   useEffect(() => {
     getAllStudents()
-      .then((res) => setAllStudents(res.data))
+      .then((res) => {
+        console.log('all', res);
+        setAllStudents(res.data);
+      })
       .catch((e) => {
         console.log('GET ALL ERROR', e);
         setAllStudents(mockAllStudents);
@@ -62,7 +65,7 @@ const HomePage = () => {
   };
 
   const addNewStudent = async () => {
-    sendNewStudent(inputName);
+    await sendNewStudent(inputName);
     await setAllStudents((prevState) => {
       return [
         ...prevState,
@@ -88,9 +91,10 @@ const HomePage = () => {
       </div>
       <h2 className="section-title">学员列表</h2>
       <div className="all-students-wrapper">
-        {allStudents.map(({ id, name }) => (
-          <div key={id} className="student">{`${id}. ${name}`}</div>
-        ))}
+        {allStudents.length > 0 &&
+          allStudents.map(({ id, name }) => (
+            <div key={id} className="student">{`${id}. ${name}`}</div>
+          ))}
         <button type="button" className="student add-student" onClick={showAddStudentInput}>
           + 添加学员
         </button>
