@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { mockAllStudents, mockStudentsGroups } from '../constants';
 import StudentsGroup from '../components/studentsGroup';
+import { getAllStudents, getGroupedStudents } from '../service';
 import './index.scss';
 import '../../style/students.scss';
 
@@ -9,6 +10,12 @@ const HomePage = () => {
   const [studentsGroups, setStudentsGroups] = useState(mockStudentsGroups);
   const [showInput, setShowInput] = useState(false);
   const [inputName, setInputName] = useState('');
+  const [newStudent, setNewStudent] = useState('');
+
+  useEffect(() => {
+    getAllStudents().then((data) => console.log('ALL', data));
+    getGroupedStudents().then((data) => console.log('GROUP', data));
+  }, []);
 
   // TODO: refactor shuffleStudents method, add test if time left
   const shuffleStudents = () => {
@@ -37,12 +44,13 @@ const HomePage = () => {
   };
 
   const addNewStudent = () => {
+    setNewStudent(inputName);
     setAllStudents((prevState) => {
       return [
         ...prevState,
         {
           id: prevState.length + 1,
-          name: inputName,
+          name: newStudent,
         },
       ];
     });
