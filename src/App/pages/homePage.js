@@ -16,6 +16,7 @@ const HomePage = () => {
   const [showInput, setShowInput] = useState(false);
   const [inputName, setInputName] = useState('');
 
+  // TODO GTB-工程实践: - console.log不应该被提交上去
   useEffect(() => {
     getAllStudents()
       .then((res) => {
@@ -26,6 +27,7 @@ const HomePage = () => {
         console.log('GET ALL ERROR', e);
         setAllStudents(mockAllStudents);
       });
+
     getGroupedStudents()
       .then((res) => {
         console.log(res.data[0]);
@@ -39,6 +41,7 @@ const HomePage = () => {
   }, []);
 
   // TODO: refactor shuffleStudents method, add test if time left
+  // TODO GTB-知识点: - 分组应该放到后端去做，而不是前端
   const shuffleStudents = () => {
     const studentsArray = [...allStudents];
     for (let i = studentsArray.length - 1; i > 0; i -= 1) {
@@ -78,6 +81,7 @@ const HomePage = () => {
     setShowInput(false);
   };
 
+  // TODO GTB-工程实践: - 这个组件太不单一职责了，应该再继续划分子组件
   return (
     <div className="page-container">
       <h2 className="section-title">分组列表</h2>
@@ -86,6 +90,8 @@ const HomePage = () => {
       </button>
       <div>
         {studentsGroups.map((studentsArray, index) => (
+          // TODO GTB-知识点: - groupId,或者说是其他的任何ID都不应该在前端生成
+            // TODO GTB-知识点: - 不应该使用index作为列表元素的key
           <StudentsGroup key={index} students={studentsArray} groupId={index + 1} />
         ))}
       </div>
